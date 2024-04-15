@@ -7,13 +7,14 @@ const public_users = express.Router();
 
 public_users.post("/register", (req, res) => {
     //Write your code here
-    return res.status(300).json({ message: "Yet to be implemented" });
+    //return res.status(300).json({ message: "Yet to be implemented" });
+    users.push({ "firstName": req.query.firstName, "lastName": req.query.lastName, "email": req.query.email, "DOB": req.query.DOB });
+    res.send("The user" + (' ') + (req.query.firstName) + " Has been added!")
 });
 
 // Get the book list available in the shop
 public_users.get('/', function (req, res) {
     //Write your code here
-    //return res.status(300).json({message: "Yet to be implemented"});
     res.send(JSON.stringify(books, null, 4));
 
 });
@@ -29,10 +30,16 @@ public_users.get('/isbn/:isbn', function (req, res) {
 // Get book details based on author
 public_users.get('/author/:author', function (req, res) {
     //Write your code here
-    //return res.status(300).json({message: "Yet to be implemented"});
-    const author = req.params.author;
-    if (!author) return res.status(300).json({ message: "No author" });
-    res.send(books[author]);
+    const author = JSON.stringify(req.params.author);
+    var book = "Cannot find that book";
+    for (i = 1; i <= 10; i++) {
+        let booky = JSON.stringify(books[i]);
+        if (booky.includes(author)) {
+            book = JSON.stringify(books[i]);
+            //console.log(book);
+        }
+    }
+    res.send(book);
 });
 
 // Get all books based on title
