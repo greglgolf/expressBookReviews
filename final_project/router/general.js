@@ -5,11 +5,38 @@ let users = require("./auth_users.js").users;
 const public_users = express.Router();
 
 
-public_users.post("/register", (req, res) => {
+const doesExist = (username)=>{
+    let userswithsamename = users.filter((user)=>{
+      return user.username === username
+    });
+    if(userswithsamename.length > 0){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+public_users.post('/register', (req, res) => {
     //Write your code here
-    //return res.status(300).json({ message: "Yet to be implemented" });
-    users.push({ "firstName": req.query.firstName, "lastName": req.query.lastName, "email": req.query.email, "DOB": req.query.DOB });
-    res.send("The user" + (' ') + (req.query.firstName) + " Has been added!")
+    //return res.status(300).json({ message: "Yet to be test implemented" });
+    const username = req.body.username;
+    const password = req.body.password;
+
+    if (username == null || username == "")
+        return res.status(200).json({ message: "Please provide user name" });
+
+    if (password == null || password == "")
+        return res.status(200).json({ message: "Please provide user password" });
+
+    if (username && password) {
+        if (!doesExist(username)) {
+            users.push({ "username": username, "password": password });
+            return res.status(200).json({ message: "User successfully registred. Now you can login" });
+        } else {
+            return res.status(404).json({ message: "User already exists!" });
+        }
+    }
+    return res.status(404).json({ message: "Unable to register user." });
 });
 
 // Get the book list available in the shop
