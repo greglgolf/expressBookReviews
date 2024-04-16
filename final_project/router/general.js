@@ -42,47 +42,87 @@ public_users.post('/register', (req, res) => {
 // Get the book list available in the shop
 public_users.get('/', function (req, res) {
     //Write your code here
-    res.send(JSON.stringify(books, null, 4));
+    let myPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            res.send(JSON.stringify(books, null, 4));
+            resolve("Promise resolved")
+        }, 6000)
+    })
+
+    //Call the promise and wait for it to be resolved and then print a message.
+    myPromise.then((successMessage) => {
+        console.log("get all books " + successMessage)
+    })
 
 });
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn', function (req, res) {
     //Write your code here
-    const isbn = req.params.isbn;
-    res.send(books[isbn]);
+    let myPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const isbn = req.params.isbn;
+            res.send(books[isbn]);
+            resolve("Promise resolved")
+        }, 6000)
+    })
+
+    myPromise.then((successMessage) => {
+        console.log("get book by isbn From Callback " + successMessage)
+    })
 
 });
 
 // Get book details based on author
 public_users.get('/author/:author', function (req, res) {
     //Write your code here
-    const author = JSON.stringify(req.params.author);
-    var book = "Cannot find that book";
-    for (i = 1; i <= 10; i++) {
-        let booky = JSON.stringify(books[i]);
-        if (booky.includes(author)) {
-            book = JSON.stringify(books[i]);
-            //console.log(book);
-        }
-    }
-    res.send(book);
+    let myPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const author = JSON.stringify(req.params.author);
+            var book = "Cannot find that book";
+            for (i = 1; i <= 10; i++) {
+                let booky = JSON.stringify(books[i]);
+                if (booky.includes(author)) {
+                    book = JSON.stringify(books[i]);
+                    //console.log(book);
+                }
+            }
+            res.send(book);
+            resolve("Promise resolved")
+        }, 6000)
+    })
+
+    myPromise.then((successMessage) => {
+        console.log("Get book by author From Callback " + successMessage)
+      })
+
+
 });
 
 // Get all books based on title
 public_users.get('/title/:title', function (req, res) {
     //Write your code here
-    const title = JSON.stringify(req.params.title);
-    var book = "Cannot find that book";
-    for (i = 1; i <= 10; i++) {
-        let booky = JSON.stringify(books[i]);
-        if (booky.includes(title)) {
-            book = JSON.stringify(books[i]);
-            //console.log(book);
-        }
-    }
-  
-    res.send(book);
+    let myPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const title = JSON.stringify(req.params.title);
+            var book = "Cannot find that book";
+            for (i = 1; i <= 10; i++) {
+                let booky = JSON.stringify(books[i]);
+                if (booky.includes(title)) {
+                    book = JSON.stringify(books[i]);
+                    //console.log(book);
+                }
+            }
+
+            res.send(book);
+            resolve("Promise resolved")
+        }, 6000)
+    })
+
+    myPromise.then((successMessage) => {
+        console.log("Get book by title From Callback " + successMessage)
+      })
+
 });
 
 //  Get book review
